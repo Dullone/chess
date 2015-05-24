@@ -13,7 +13,7 @@ class Rook < ChessPiece
       case move_type
         when :horizontal
           return move_horizontal
-        when :vertial
+        when :vertical
           return move_vertical
       end
     end
@@ -25,7 +25,7 @@ class Rook < ChessPiece
       if is_horizontal_move 
         return :horizontal
       else
-        return :vertial
+        return :vertical
       end
     end
     false

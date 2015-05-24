@@ -30,6 +30,16 @@ class ChessPiece
     square[0] == @location[0]
   end
 
+  def move_diagonal(square)
+    unless is_diagonal_move?(square) then return false end
+
+    move square
+  end
+
+  def is_diagonal_move?(square)
+    (@location[0] - square[0]).abs == (@location[1] - square[1]).abs
+  end
+
   def move(square)
     if board.position_occupied?(square)
       if board.get_piece(square).color != @color
@@ -51,7 +61,7 @@ class ChessPiece
         return board.move_piece(@location, square)
       end
     else
-      "path blocked"
+      :path_blocked
     end
   end
 
