@@ -16,18 +16,22 @@ class ChessPiece
     move square
   end
 
-  def is_vertical_move?(square)
-    square[1] == @location[1] 
-  end
-
   def move_horizontal(square)
     unless is_horizontal_move?(square) then return false end
 
     move square
   end
 
+  def is_vertical_move?(square)
+    square[1] == @location[1] 
+  end
+
   def is_horizontal_move?(square)
     square[0] == @location[0]
+  end
+
+  def is_diagonal_move?(square)
+    (@location[0] - square[0]).abs == (@location[1] - square[1]).abs
   end
 
   def move_diagonal(square)
@@ -36,9 +40,7 @@ class ChessPiece
     move square
   end
 
-  def is_diagonal_move?(square)
-    (@location[0] - square[0]).abs == (@location[1] - square[1]).abs
-  end
+
 
   def move_type(square)
     if move_legal?(square)
@@ -64,6 +66,24 @@ class ChessPiece
       move_without_capture(square)
     end
     #scan for 'check'
+  end
+
+
+  def move_to(square)
+    unless self.move_legal?(square)
+      return :illegal_move
+    else
+      return move(square)
+     #case move_type(square)
+     #  when :horizontal
+     #    return move_horizontal(square)
+     #  when :vertical
+     #    return move_vertical(square)
+     #  when :diagonal
+     #    return move_diagonal(square)
+     #end
+    end
+    false
   end
 
   def move_without_capture(square)

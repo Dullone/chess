@@ -6,19 +6,19 @@ class Rook < ChessPiece
     @type = :rook
   end
 
-  def move_to(location)
-    unless move_legal? 
-      return :illegal_move
-    else
-      case move_type(square)
-        when :horizontal
-          return move_horizontal(location)
-        when :vertical
-          return move_vertical(location)
-      end
-    end
-    false
-  end
+ #def move_to(location)
+ #  unless move_legal? 
+ #    return :illegal_move
+ #  else
+ #    case move_type(square)
+ #      when :horizontal
+ #        return move_horizontal(location)
+ #      when :vertical
+ #        return move_vertical(location)
+ #    end
+ #  end
+ #  false
+ #end
 
   def move_legal?(location)
     unless super(location) then return false end

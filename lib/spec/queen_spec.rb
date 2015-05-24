@@ -15,6 +15,9 @@ describe Queen do
     it "moves vertical" do 
       expect(queen_3_3.move_to([6,3])).to eql [6,3]
     end
+    it "doesn't move 2 up 4 across" do 
+      expect(queen_3_3.move_to([5,7])).to eql :illegal_move
+    end
 
   end
 
