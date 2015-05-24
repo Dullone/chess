@@ -10,15 +10,11 @@ class ChessPiece
   end
 
   def move_vertical(square)
-    move_length = square[0] - @location[0]
     unless @board.inbounds?(square) && !@board.position_occupied?(square) && square[1] == @location[1]
       return false
     end
 
-    step = move_length > 0 ? 1 : -1
-    (0...move_length).each do |i|
-      if @board.position_occupied?([(@location[0] +  (i + 1)*step), @location[1]]) then return false end
-    end
+    if path_clear?(square) == false then return false end
 
     @board.move_piece  @location, square
   end
