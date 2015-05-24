@@ -40,6 +40,19 @@ class ChessPiece
     (@location[0] - square[0]).abs == (@location[1] - square[1]).abs
   end
 
+  def move_type(square)
+    if move_legal?(square)
+      if is_horizontal_move?(square)
+        return :horizontal
+      elsif is_vertical_move?(square)
+        return :vertical
+      else
+        return :diagonal
+      end
+    end
+    false
+  end
+
   def move(square)
     if board.position_occupied?(square)
       if board.get_piece(square).color != @color

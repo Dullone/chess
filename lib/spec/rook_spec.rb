@@ -4,7 +4,7 @@ describe Rook do
   let(:board)     { ChessBoard.new }
   let(:rook_3_3)  { Rook.new(board, [3,3], "black", false) }
 
-  describe "#move" do 
+  describe "#move_to" do 
     it "moves vertially" do 
       expect(rook_3_3.move([6,3])).to eql [6,3]
     end
