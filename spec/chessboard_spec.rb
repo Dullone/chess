@@ -3,7 +3,7 @@ require "./chessboard"
 
 describe ChessBoard do
   let(:board) { ChessBoard.new }
-  let(:piece) { double("chesspiece") }
+  let(:piece) { double("chesspiece", :color => "black") }
 
   describe "#add_piece" do 
     it "adds a piece" do

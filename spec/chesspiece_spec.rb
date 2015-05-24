@@ -2,11 +2,11 @@ require "./chesspiece"
 
 describe ChessPiece do
   let(:board)     { ChessBoard.new }
-  let(:piece_3_3) { ChessPiece.new(board, [3,3], false) }
-  let(:piece_3_4) { ChessPiece.new(board, [3,4], false) }
-  let(:piece_4_4) { ChessPiece.new(board, [4,4], false) }
-  let(:piece_1_1) { ChessPiece.new(board, [1,1], false) }
-  let(:piece_3_1) { ChessPiece.new(board, [1,1], false) }
+  let(:piece_3_3) { ChessPiece.new(board, [3,3], "black", false) }
+  let(:piece_3_4) { ChessPiece.new(board, [3,4], "black", false) }
+  let(:piece_4_4) { ChessPiece.new(board, [4,4], "black", false) }
+  let(:piece_1_1) { ChessPiece.new(board, [1,1], "black", false) }
+  let(:piece_3_1) { ChessPiece.new(board, [1,1], "black", false) }
 
   describe "#move_vertical" do
     it "moves a piece vertically up" do 

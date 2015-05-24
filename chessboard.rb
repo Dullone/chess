@@ -33,4 +33,9 @@ class ChessBoard
     square
   end
 
+  def get_piece(square)
+    if inbounds? then return @positions[square[0]][square[1]] end
+    nil
+  end
+
 end

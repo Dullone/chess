@@ -1,22 +1,53 @@
 class ChessPiece
   attr_reader :location, :board
 
-  def initialize(board, square, add_to_board = true)
+  def initialize(board, square, color, add_to_board = true)
     @location = square
     @board = board
+    @color = color
     if add_to_board
       board.add_piece(self, square)
     end
   end
 
   def move_vertical(square)
-    unless @board.inbounds?(square) && !@board.position_occupied?(square) && square[1] == @location[1]
-      return false
+    unless square[1] == @location[1] then return false end
+
+    move square
+  end
+
+  def move_horizontal(square)
+    unless square[0] == @location[0] then return false end
+
+    move square
+  end
+
+  def move(square)
+    if board.position_occupied?(square)
+      if board.get_piece(square).color != @color
+        return move_with_capture(square)
+      else
+        "position occupied"
+      end
+    else
+      move_without_capture(square)
     end
+    #scan for 'check'
+  end
 
-    if path_clear?(square) == false then return false end
+  def move_without_capture(square)
+    if path_clear?(square)
+      if check?
+        "Illegal, move causes king to be in check"
+      else
+        return board.move_piece(@location, square)
+      end
+    else
+      "path blocked"
+    end
+  end
 
-    @board.move_piece  @location, square
+  def move_with_capture(square)
   end
 
   def path_clear?(end_point)
@@ -34,6 +65,10 @@ class ChessPiece
       end
     end
     true
+  end
+
+  def check?
+    false
   end
 
   private
