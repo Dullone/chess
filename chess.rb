@@ -1,3 +1,1 @@
-class ChessPiece
 
-end
