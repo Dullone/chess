@@ -12,7 +12,7 @@ describe ChessBoard do
     end
     it "doesn't add a piece when position occupied" do 
       board.add_piece [1,1], piece
-      expect(board.add_piece [1,1], piece).to equal false
+      expect(board.add_piece([1,1], piece)).to equal false
     end
   end
   describe "move a piece" do 

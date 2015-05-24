@@ -11,7 +11,7 @@ class ChessBoard
   end
 
   def inbounds?(square)
-    square[0].between(0,7) && square[1].between(0,7)
+    square[0].between?(0,7) && square[1].between?(0,7)
   end
 
   def move_piece(from, destination)
@@ -30,6 +30,7 @@ class ChessBoard
     else
       @positions[square[0]][square[1]] = piece
     end
+    square
   end
 
 end
