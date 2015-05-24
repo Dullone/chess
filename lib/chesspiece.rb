@@ -1,25 +1,14 @@
 class ChessPiece
-  attr_reader :location, :board
+  attr_reader :location, :board, :type
 
   def initialize(board, square, color, add_to_board = true)
     @location = square
     @board = board
     @color = color
+    @type = nil
     if add_to_board
       board.add_piece(self, square)
     end
-  end
-
-  def move_vertical(square)
-    unless is_vertical_move?(square) then return false end
-
-    move square
-  end
-
-  def move_horizontal(square)
-    unless is_horizontal_move?(square) then return false end
-
-    move square
   end
 
   def is_vertical_move?(square)
@@ -33,14 +22,6 @@ class ChessPiece
   def is_diagonal_move?(square)
     (@location[0] - square[0]).abs == (@location[1] - square[1]).abs
   end
-
-  def move_diagonal(square)
-    unless is_diagonal_move?(square) then return false end
-
-    move square
-  end
-
-
 
   def move_type(square)
     if move_legal?(square)
@@ -60,7 +41,7 @@ class ChessPiece
       if board.get_piece(square).color != @color
         return move_with_capture(square)
       else
-        "position occupied"
+        :position_occupied
       end
     else
       move_without_capture(square)
@@ -74,14 +55,6 @@ class ChessPiece
       return :illegal_move
     else
       return move(square)
-     #case move_type(square)
-     #  when :horizontal
-     #    return move_horizontal(square)
-     #  when :vertical
-     #    return move_vertical(square)
-     #  when :diagonal
-     #    return move_diagonal(square)
-     #end
     end
     false
   end
@@ -89,7 +62,7 @@ class ChessPiece
   def move_without_capture(square)
     if path_clear?(square)
       if check?
-        "Illegal, move causes king to be in check"
+        :illegal_causes_check
       else
         return board.move_piece(@location, square)
       end
@@ -126,7 +99,7 @@ class ChessPiece
     board.inbounds?(location)
   end
 
-  private
+  protected
 
   def greater_difference(length_one, length_two)
     length = length_one.abs > length_two.abs ?  length_one : length_two

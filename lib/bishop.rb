@@ -7,16 +7,6 @@ class Bishop < ChessPiece
     @type = :bishop
   end
 
-  def move_to(square)
-    unless move_legal?(square)
-      return :illegal_move
-    else
-      return move_diagonal square
-    end
-    false
-
-  end
-
   def move_legal?(location)
     unless super(location) then return false end
     is_diagonal_move? location

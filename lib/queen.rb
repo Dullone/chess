@@ -3,7 +3,7 @@ require "./chesspiece"
 class Queen < ChessPiece
   def initialize(board, square, color, add_to_board = true)
     super(board, square, color, add_to_board)
-    @type = :rook
+    @type = :queen
   end
 
   def move_legal?(square)
