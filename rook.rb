@@ -7,13 +7,35 @@ class Rook < ChessPiece
   end
 
   def move_to(location)
-    if status = move_vertical(location)
-      return status
-    elsif status = move_horizontal(location)
-      return status
+    unless move_legal? 
+      return "Illegal move"
     else
-      false
+      case move_type
+        when :horizontal
+          return move_horizontal
+        when :vertial
+          return move_vertical
+      end
     end
+    false
   end
 
+  def move_type(square)
+    if move_legal?
+      if is_horizontal_move 
+        return :horizontal
+      else
+        return :vertial
+      end
+    end
+    false
+  end
+
+  def move_legal?(location)
+    status = is_horizontal_move? location
+    if status == location then return true end
+    status = is_vertical_move? location
+    if status == location then return true end
+    false
+  end
 end

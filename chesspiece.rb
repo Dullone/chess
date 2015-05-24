@@ -11,15 +11,23 @@ class ChessPiece
   end
 
   def move_vertical(square)
-    unless square[1] == @location[1] then return false end
+    unless is_vertical_move?(square) then return false end
 
     move square
   end
 
+  def is_vertical_move?(square)
+    square[1] == @location[1] 
+  end
+
   def move_horizontal(square)
-    unless square[0] == @location[0] then return false end
+    unless is_horizontal_move?(square) then return false end
 
     move square
+  end
+
+  def is_horizontal_move?(square)
+    square[0] == @location[0]
   end
 
   def move(square)
