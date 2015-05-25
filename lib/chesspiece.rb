@@ -72,6 +72,10 @@ class ChessPiece
     board.inbounds?(location)
   end
 
+  def capture_legal?(square)
+    move_legal? square
+  end
+
   protected
   def move(square)
     if board.position_occupied?(square)
