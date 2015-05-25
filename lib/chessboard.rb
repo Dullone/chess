@@ -24,6 +24,12 @@ class ChessBoard
     destination
   end
 
+  def swap_pieces(piece_one, piece_two)
+    temp = @positions[piece_one[0]][piece_one[1]]
+    @positions[piece_one[0]][piece_one[1]] = @positions[piece_two[0]][piece_two[1]]
+    @positions[piece_two[0]][piece_two[1]] = temp
+  end
+
   def add_piece(square, piece)
     if position_occupied? square
       return false
@@ -34,7 +40,7 @@ class ChessBoard
   end
 
   def get_piece(square)
-    if inbounds? then return @positions[square[0]][square[1]] end
+    if inbounds?(square) then return @positions[square[0]][square[1]] end
     nil
   end
 

@@ -14,4 +14,8 @@ class Rook < ChessPiece
 
     false
   end
+
+  def castle(location)
+    change_location location
+  end
 end
