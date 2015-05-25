@@ -1,6 +1,7 @@
 require "./chess"
 require "./chesspiece"
 class ChessBoard
+  @@empty_square = "_"
   attr_reader :positions
   def initialize
     clear_board
@@ -46,6 +47,27 @@ class ChessBoard
   def get_piece(square)
     if inbounds?(square) then return @positions[square[0]][square[1]] end
     nil
+  end
+
+  def to_s
+    string = "__________________\n"
+    @positions.length.times do |i|
+      string << row_to_s(i) << "\n"
+    end
+    File.open("var.log", "a") { |file| file.puts string  }
+    string << "  a b c d e f g h"
+  end
+
+  def row_to_s(row)
+    string = row.to_s + "|"
+    @positions[row].each do |square|
+      if square == nil
+        string << @@empty_square << "|"
+      else
+        string << square.symbol[square.color] << "|"
+      end
+    end
+    string
   end
 
 end

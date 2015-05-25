@@ -1,5 +1,5 @@
 class ChessPiece
-  attr_reader :location, :board, :type, :moved
+  attr_reader :location, :board, :type, :moved, :color, :symbol
 
   def initialize(board, square, color, add_to_board = true)
     @location = square

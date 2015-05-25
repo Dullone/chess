@@ -4,15 +4,15 @@ require "./bishop"
 
 describe ChessPiece do
   let(:board)     { ChessBoard.new }
-  let(:piece_3_3) { ChessPiece.new(board, [3,3], "black", false) }
-  let(:piece_3_4) { ChessPiece.new(board, [3,4], "black", false) }
-  let(:piece_4_4) { ChessPiece.new(board, [4,4], "black", false) }
-  let(:piece_2_4) { ChessPiece.new(board, [2,4], "black", false) }
-  let(:piece_1_1) { ChessPiece.new(board, [1,1], "black", false) }
-  let(:piece_3_1) { ChessPiece.new(board, [3,1], "black", false) }
-  let(:king)      { King.new(board, [7,4], "black", false) }
-  let(:rook)      { Rook.new(board, [7,0], "black", false) }
-  let(:bishop)    { Bishop.new(board, [7,2], "black", false) }
+  let(:piece_3_3) { ChessPiece.new(board, [3,3], :black, false) }
+  let(:piece_3_4) { ChessPiece.new(board, [3,4], :black, false) }
+  let(:piece_4_4) { ChessPiece.new(board, [4,4], :black, false) }
+  let(:piece_2_4) { ChessPiece.new(board, [2,4], :black, false) }
+  let(:piece_1_1) { ChessPiece.new(board, [1,1], :black, false) }
+  let(:piece_3_1) { ChessPiece.new(board, [3,1], :black, false) }
+  let(:king)      { King.new(board, [7,4], :black, false) }
+  let(:rook)      { Rook.new(board, [7,0], :black, false) }
+  let(:bishop)    { Bishop.new(board, [7,2], :black, false) }
 
   describe "checking a move path" do 
     it "doesn't allow a negative horizontal if path is blocked" do 

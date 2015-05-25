@@ -2,11 +2,11 @@ require "./king"
 require "./bishop"
 
 describe King do
-  let(:board)       { ChessBoard.new }
-  let(:king)         { King.new(board, [7,4], "black", false) }
-  let(:rook_bl)      { Rook.new(board, [7,0], "black", false) }
-  let(:rook_br)      { Rook.new(board, [7,7], "black", false) }
-  let(:bishop)       { Bishop.new(board, [7,2], "black", false) }
+  let(:board)        { ChessBoard.new }
+  let(:king)         { King.new(board, [7,4], :black, false) }
+  let(:rook_bl)      { Rook.new(board, [7,0], :black, false) }
+  let(:rook_br)      { Rook.new(board, [7,7], :black, false) }
+  let(:bishop)       { Bishop.new(board, [7,2], :black, false) }
 
   describe "#move_legal?" do 
     it "doesn't allow a two space move" do 

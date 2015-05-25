@@ -2,7 +2,8 @@ require "./pawn"
 
 describe Pawn do
   let(:board)        { ChessBoard.new }
-  let(:pawn)         { Pawn.new(board, [6,0], "black", false) }
+  let(:pawn)         { Pawn.new(board, [6,0], :black, false) }
+  let(:pawn_white)   { Pawn.new(board, [4,1], :white, false) }
   
   describe "#move_to" do
     it "moves up one" do 
@@ -19,6 +20,11 @@ describe Pawn do
     end
     it "doesn't move diagonal" do 
       expect(pawn.move_to([5,1])).to eql :illegal_move
+    end
+    it "checks for en passant" do 
+      board.add_piece(pawn_white.location, pawn_white)
+      pawn.move_to([4,0])
+      expect(pawn_white.en_passant_targets[0]).to equal pawn
     end
   end
 end
