@@ -38,7 +38,7 @@ class ChessPiece
   end
 
   def move_to(square)
-    if !self.move_legal?(square)
+    if !move_legal?(square)
       return :illegal_move
     elsif false #scan for check
     else

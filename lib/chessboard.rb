@@ -3,6 +3,10 @@ require "./chesspiece"
 class ChessBoard
   attr_reader :positions
   def initialize
+    clear_board
+  end
+
+  def clear_board
     @positions = Array.new(8){Array.new(8, nil)}
   end
 
