@@ -1,7 +1,7 @@
 require "./chesspiece"
 class ChessBoard
   @@empty_square = "_"
-  attr_reader :positions
+  attr_reader :positions, :captured_pieces
   def initialize
     clear_board
     @captured_pieces = []

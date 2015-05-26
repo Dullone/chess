@@ -12,6 +12,7 @@ describe ChessPiece do
   let(:piece_3_1) { ChessPiece.new(board, [3,1], :black, false) }
   let(:king)      { King.new(board, [7,4], :black, false) }
   let(:rook)      { Rook.new(board, [7,0], :black, false) }
+  let(:rook_white){ Rook.new(board, [7,0], :white, false) }
   let(:bishop)    { Bishop.new(board, [7,2], :black, false) }
 
   describe "checking a move path" do 
@@ -51,6 +52,14 @@ describe ChessPiece do
       board.swap_pieces(piece_4_4.location, piece_2_4.location)
       expect(board.positions[4][4]).to equal piece_2_4
       expect(board.positions[2][4]).to equal piece_4_4
+    end
+  end
+  describe "#move_with_capture" do 
+    it "captures a piece" do 
+      board.add_piece(rook_white.location, rook_white)
+      board.add_piece(bishop.location, bishop)
+      rook_white.move_to(bishop.location)
+      expect(board.captured_pieces.include?(bishop)).to equal true
     end
   end
 end

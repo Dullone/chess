@@ -90,18 +90,30 @@ class ChessPiece
   end
 
   def move_without_capture(square)
-    if path_clear?(square)
-      if check?
-        :illegal_causes_check
-      else
-        return change_location(square)
-      end
-    else
-      :path_blocked
+    status = board_status_legal(square)
+    unless status == true
+      return status
     end
+    return change_location(square)
   end
 
   def move_with_capture(square)
+    status = board_status_legal(square)
+    unless status == true
+      return status
+    end
+    board.capture_piece(square)
+    change_location(square)
+  end
+
+  def board_status_legal(square)
+    unless path_clear?(square)
+      return :path_blocked
+    end
+    if check?
+      return :illegal_causes_check     
+    end
+    true
   end
 
   def change_location(square)

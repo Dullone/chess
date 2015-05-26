@@ -5,12 +5,20 @@ describe ChessBoard do
   let(:board)       { ChessBoard.new }
   let(:piece)       { double("chesspiece", :color => "black") }
   let(:king)        { King.new(board, [7,4], :white, false) }
-  let(:rook)        { Rook.new(board, [7,0], :black, false) }
+  let(:rook_black)  { Rook.new(board, [7,0], :black, false) }
+  let(:rook_white)  { Rook.new(board, [7,0], :white, false) }
+  let(:king_black)  { King.new(board, [7,7], :black, false) }
+  let(:bishop_black){ King.new(board, [5,2], :black, false) }
   let(:board_string){ "__________________\n1|_|_|_|_|_|_|_|_|\n2|_|_|_|_|_|_|_|_|\n" \
                        "3|_|_|_|_|_|_|_|_|\n4|_|_|_|_|_|_|_|_|\n5|_|_|_|_|_|_|_|_|\n" \
                        "6|_|_|_|_|_|_|_|_|\n7|_|_|_|_|_|_|_|_|\n8|_|_|_|_|_|_|_|_|\n------------------\n" \
                        "  a b c d e f g h" 
                          }
+
+  def add_kings
+    board.add_piece(king_black.location, king_black)
+    board.add_piece(king.location, king)
+  end
 
   describe "#add_piece" do 
     it "adds a piece" do
@@ -39,23 +47,33 @@ describe ChessBoard do
   describe "#each_piece" do 
     it "gives back all the pieces" do
       board.add_piece(king.location, king)
-      board.add_piece(rook.location, rook)
+      board.add_piece(rook_black.location, rook_black)
       array =[]
       board.each_piece {|p| array << p }
-      expect(array).to eql [rook, king]
+      expect(array).to eql [rook_black, king]
     end
   end
   describe "#check" do
-    it "detects check for white king" do
-      board.add_piece(king.location, king)
-      board.add_piece(rook.location, rook)
-      expect(board.check).to equal rook
+    it "detects check of white king with black rook_black" do
+      add_kings
+      board.add_piece(rook_black.location, rook_black)
+      expect(board.check).to equal rook_black
     end    
+    it "detects check of white king with black rook_black" do
+      add_kings
+      board.add_piece(rook_white.location, rook_white)
+      expect(board.check).to equal rook_white
+    end
   end
   describe "#capture_piece" do 
     it "removes the piece" do 
-      board.add_piece(rook.location, rook)
-      expect(board.capture_piece(rook.location)).to equal rook
+      board.add_piece(rook_black.location, rook_black)
+      expect(board.capture_piece(rook_black.location)).to equal rook_black
+    end
+    it "tracks the captured piece" do 
+      board.add_piece(rook_black.location, rook_black)
+      board.capture_piece(rook_black.location)
+      expect(board.captured_pieces.include?(rook_black)).to eql true
     end
   end
 
