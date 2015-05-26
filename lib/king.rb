@@ -15,7 +15,8 @@ class King < ChessPiece
   def initialize(board, square, color, add_to_board = true)
     super(board, square, color, add_to_board)
     @type = :king
-    @symbol = { :black => "♚", :white => "♔" }
+    #@symbol = { :black => "♚", :white => "♔" } #unicode
+    @symbol = { :black => "k", :white => "K" }
   end
 
   def move_legal?(square)

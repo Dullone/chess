@@ -4,7 +4,8 @@ class Rook < ChessPiece
   def initialize(board, square, color, add_to_board = true)
     super(board, square, color, add_to_board)
     @type = :rook
-    @symbol = { :black => "♜", :white => "♖" }
+    #@symbol = { :black => "♜", :white => "♖" } #unicode
+    @symbol = { :black => "r", :white => "R" }
   end
 
   def move_legal?(square)

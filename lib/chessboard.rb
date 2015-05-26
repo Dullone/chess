@@ -1,4 +1,3 @@
-require "./chess"
 require "./chesspiece"
 class ChessBoard
   @@empty_square = "_"
@@ -54,12 +53,11 @@ class ChessBoard
     @positions.length.times do |i|
       string << row_to_s(i) << "\n"
     end
-    File.open("var.log", "a") { |file| file.puts string  }
     string << "  a b c d e f g h"
   end
 
   def row_to_s(row)
-    string = row.to_s + "|"
+    string = (row + 1).to_s + "|"
     @positions[row].each do |square|
       if square == nil
         string << @@empty_square << "|"

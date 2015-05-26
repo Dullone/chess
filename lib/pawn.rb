@@ -6,7 +6,7 @@ class Pawn < ChessPiece
     super(board, square, color, add_to_board)
     @type = :pawn
     @en_passant_targets = nil
-    #@symbol = { :black => "♟", :white => "♙" }
+    #@symbol = { :black => "♟", :white => "♙" }#unicode
     @symbol = { :black => "p", :white => "P" }
   end
 

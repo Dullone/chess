@@ -4,9 +4,9 @@ require "./chessboard"
 describe ChessBoard do
   let(:board)       { ChessBoard.new }
   let(:piece)       { double("chesspiece", :color => "black") }
-  let(:board_string){ "__________________\n0|_|_|_|_|_|_|_|_|\n1|_|_|_|_|_|_|_|_|\n" \
-                       "2|_|_|_|_|_|_|_|_|\n3|_|_|_|_|_|_|_|_|\n4|_|_|_|_|_|_|_|_|\n" \
-                       "5|_|_|_|_|_|_|_|_|\n6|_|_|_|_|_|_|_|_|\n7|_|_|_|_|_|_|_|_|\n  a b c d e f g h" }
+  let(:board_string){ "__________________\n1|_|_|_|_|_|_|_|_|\n2|_|_|_|_|_|_|_|_|\n" \
+                       "3|_|_|_|_|_|_|_|_|\n4|_|_|_|_|_|_|_|_|\n5|_|_|_|_|_|_|_|_|\n" \
+                       "6|_|_|_|_|_|_|_|_|\n7|_|_|_|_|_|_|_|_|\n8|_|_|_|_|_|_|_|_|\n  a b c d e f g h" }
 
   describe "#add_piece" do 
     it "adds a piece" do
