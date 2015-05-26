@@ -3,13 +3,13 @@ require "./chesspiece"
 class King < ChessPiece
   @@castle_positions = {
     :c1 => { :side=>:white, :rook => [0,0],       :king => [0,4], 
-                       :rook_after => [0,3], :king_after => [0,2] },
+                      :rook_after => [0,3], :king_after => [0,2] },
     :c2 => { :side=>:white, :rook => [0,7],       :king => [0,4], 
-                       :rook_after => [0,5], :king_after => [0,6] },
+                      :rook_after => [0,5], :king_after => [0,6] },
     :c3 => { :side=>:white, :rook => [7,0],       :king => [7,4], 
-                       :rook_after => [7,3], :king_after => [7,2] },
+                      :rook_after => [7,3], :king_after => [7,2] },
     :c4 => { :side=>:white, :rook => [7,7],       :king => [7,4], 
-                       :rook_after => [7,5], :king_after => [7,6] }
+                      :rook_after => [7,5], :king_after => [7,6] }
     }
 
   def initialize(board, square, color, add_to_board = true)

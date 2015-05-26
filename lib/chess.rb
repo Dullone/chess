@@ -5,6 +5,7 @@ require "./bishop"
 require "./king"
 require "./queen"
 require "./rook"
+require "./knight"
 
 class Chess
   attr_reader :board
@@ -25,6 +26,11 @@ class Chess
     @board.add_piece([7,7], Rook.new(@board, [7,7], :black, false))
     @board.add_piece([0,0], Rook.new(@board, [0,0], :white, false))
     @board.add_piece([0,7], Rook.new(@board, [0,7], :white, false))
+    #knights
+    @board.add_piece([7,1], Knight.new(@board, [7,1], :black, false))
+    @board.add_piece([7,6], Knight.new(@board, [7,6], :black, false))
+    @board.add_piece([0,1], Knight.new(@board, [0,1], :white, false))
+    @board.add_piece([0,6], Knight.new(@board, [0,6], :white, false))
     #bishops
     @board.add_piece([7,5], Bishop.new(@board, [7,5], :black, false))
     @board.add_piece([7,2], Bishop.new(@board, [7,2], :black, false))

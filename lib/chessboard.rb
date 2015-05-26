@@ -53,6 +53,7 @@ class ChessBoard
     @positions.length.times do |i|
       string << row_to_s(i) << "\n"
     end
+    string << "------------------\n"
     string << "  a b c d e f g h"
   end
 
