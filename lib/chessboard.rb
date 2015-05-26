@@ -4,6 +4,7 @@ class ChessBoard
   attr_reader :positions
   def initialize
     clear_board
+    @captured_pieces = []
   end
 
   def clear_board
@@ -12,6 +13,23 @@ class ChessBoard
 
   def position_occupied?(square)
     @positions[square[0]][square[1]] != nil
+  end
+
+  def capture_piece(square)
+    piece = get_piece(square)
+    if piece
+      @captured_pieces << remove_piece(square)
+    end
+    piece
+  end
+
+  def remove_piece(square)
+    piece = nil
+    if inbounds?(square)
+      piece = @positions[square[0]][square[1]]
+      @positions[square[0]][square[1]] = nil
+    end
+    piece
   end
 
   def inbounds?(square)
@@ -48,6 +66,33 @@ class ChessBoard
     nil
   end
 
+  def check
+    white_king = find_piece(:king, :white).first
+    black_king = find_piece(:king, :black).first
+
+    each_piece do |piece|
+      if piece.color == :black && piece.capture_legal?(white_king.location)
+        return piece
+      end
+    end
+    each_piece do |piece|
+      if piece.color == :white && piece.capture_legal?(black_king.location)
+        return piece
+      end
+    end
+
+  end
+
+  def find_piece(type, side)
+    pieces = []
+    each_square do |square|
+      if square != nil && square.type == type && square.color == side
+        pieces << square
+      end
+    end
+    pieces
+  end
+
   def to_s
     string = "__________________\n"
     @positions.length.times do |i|
@@ -67,6 +112,22 @@ class ChessBoard
       end
     end
     string
+  end
+
+  def each_square
+     @positions.each do |row|
+      row.each do |square|
+        yield square
+      end
+    end
+  end
+
+  def each_piece
+    each_square do |square|
+      if square != nil
+        yield square
+      end
+    end
   end
 
 end

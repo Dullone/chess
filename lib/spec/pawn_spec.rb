@@ -2,8 +2,8 @@ require "./pawn"
 
 describe Pawn do
   let(:board)        { ChessBoard.new }
-  let(:pawn)         { Pawn.new(board, [6,0], :black, false) }
-  let(:pawn_white)   { Pawn.new(board, [4,1], :white, false) }
+  let(:pawn)         { Pawn.new(board, [6,0], :black) }
+  let(:pawn_white)   { Pawn.new(board, [4,1], :white) }
   
   describe "#move_to" do
     it "moves up one" do 

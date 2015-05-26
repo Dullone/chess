@@ -8,7 +8,7 @@ class ChessPiece
     @type = nil
     @moved = false
     if add_to_board
-      board.add_piece(self, square)
+      board.add_piece(square, self)
     end
   end
 

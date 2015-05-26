@@ -4,6 +4,8 @@ require "./chessboard"
 describe ChessBoard do
   let(:board)       { ChessBoard.new }
   let(:piece)       { double("chesspiece", :color => "black") }
+  let(:king)        { King.new(board, [7,4], :white, false) }
+  let(:rook)        { Rook.new(board, [7,0], :black, false) }
   let(:board_string){ "__________________\n1|_|_|_|_|_|_|_|_|\n2|_|_|_|_|_|_|_|_|\n" \
                        "3|_|_|_|_|_|_|_|_|\n4|_|_|_|_|_|_|_|_|\n5|_|_|_|_|_|_|_|_|\n" \
                        "6|_|_|_|_|_|_|_|_|\n7|_|_|_|_|_|_|_|_|\n8|_|_|_|_|_|_|_|_|\n------------------\n" \
@@ -34,4 +36,27 @@ describe ChessBoard do
       expect(board.to_s).to eql board_string
     end
   end
+  describe "#each_piece" do 
+    it "gives back all the pieces" do
+      board.add_piece(king.location, king)
+      board.add_piece(rook.location, rook)
+      array =[]
+      board.each_piece {|p| array << p }
+      expect(array).to eql [rook, king]
+    end
+  end
+  describe "#check" do
+    it "detects check for white king" do
+      board.add_piece(king.location, king)
+      board.add_piece(rook.location, rook)
+      expect(board.check).to equal rook
+    end    
+  end
+  describe "#capture_piece" do 
+    it "removes the piece" do 
+      board.add_piece(rook.location, rook)
+      expect(board.capture_piece(rook.location)).to equal rook
+    end
+  end
+
 end
