@@ -31,19 +31,21 @@ class King < ChessPiece
   end
 
   def move_to(square)
-    if castle == square 
+    if castle(square) == square 
       square
     else
       return super(square)
     end
   end
 
-  def castle
-    if @moved == true then return :illegal_castle_piece_moved end
+  def castle(square)
+    if @moved == true && (@location[1] - square[1]).abs == 2
+      return :illegal_castle_piece_moved 
+    end
 
     @@castle_positions.each_value do |position|
       rook = @board.get_piece(position[:rook])
-      if @location == position[:king] && rook != nil && rook.type == :rook && rook.moved == false
+      if @location == position[:king] && rook != nil && rook.type == :rook && rook.moved == false && rook.color == @color
         if path_clear?(position[:rook])
           @board.get_piece(position[:rook]).castle(position[:rook_after])
           return @location = change_location(position[:king_after])

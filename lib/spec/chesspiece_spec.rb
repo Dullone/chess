@@ -14,6 +14,7 @@ describe ChessPiece do
   let(:rook)      { Rook.new(board, [7,0], :black, false) }
   let(:rook_white){ Rook.new(board, [7,0], :white, false) }
   let(:bishop)    { Bishop.new(board, [7,2], :black, false) }
+  let(:bishop_capture) {{ :type => bishop.type, :symbol => bishop.symbol }}
 
   describe "checking a move path" do 
     it "doesn't allow a negative horizontal if path is blocked" do 
@@ -59,7 +60,7 @@ describe ChessPiece do
       board.add_piece(rook_white.location, rook_white)
       board.add_piece(bishop.location, bishop)
       rook_white.move_to(bishop.location)
-      expect(board.captured_pieces.include?(bishop)).to equal true
+      expect(board.captured_pieces.include?(bishop_capture)).to equal true
     end
   end
 end

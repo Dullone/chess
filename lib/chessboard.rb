@@ -5,6 +5,7 @@ class ChessBoard
   def initialize
     clear_board
     @captured_pieces = []
+    @last_capture = nil
   end
 
   def clear_board
@@ -18,9 +19,21 @@ class ChessBoard
   def capture_piece(square)
     piece = get_piece(square)
     if piece
-      @captured_pieces << remove_piece(square)
+      remove_piece(square).type
+      @captured_pieces << { :type => piece.type, :symbol => piece.symbol }
     end
-    piece
+    @last_capture = piece
+  end
+
+  def undo_last_capture
+    if @last_capture && add_piece(@last_capture.location, @last_capture)
+      piece =  @last_capture
+      @last_capture = nil
+      @captured_pieces.pop
+      return piece
+    else
+      false
+    end
   end
 
   def remove_piece(square)
@@ -66,21 +79,37 @@ class ChessBoard
     nil
   end
 
-  def check
+  def check(color = :both)
     white_king = find_piece(:king, :white).first
     black_king = find_piece(:king, :black).first
 
-    each_piece do |piece|
-      if piece.color == :black && piece.capture_legal?(white_king.location)
-        return piece
+    if color == :both || color == :white
+      each_piece do |piece|
+        if piece.type == :rook
+          #File.open("var.log", "a") { |io| io.puts "color: #{color} wKing: #{white_king.location} piece: #{piece} piece loc #{piece.location}" }
+        end
+        if piece.color == :black && piece.capture_legal?(white_king.location)
+          return piece
+        end
       end
     end
-    each_piece do |piece|
-      if piece.color == :white && piece.capture_legal?(black_king.location)
-        return piece
+    if color == :both || color == :black
+      each_piece do |piece|
+        if piece.color == :white && piece.capture_legal?(black_king.location)
+          return piece
+        end
       end
     end
+    nil
+  end
 
+  def legal_move?
+    each_piece do |piece|
+      each_square do |square|
+        if piece.move_legal?(square) then  return true end
+      end
+    end
+    false
   end
 
   def find_piece(type, side)

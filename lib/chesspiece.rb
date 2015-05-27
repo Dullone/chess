@@ -40,7 +40,6 @@ class ChessPiece
   def move_to(square)
     if !move_legal?(square)
       return :illegal_move
-    elsif false #scan for check
     else
       return move(square)
     end
@@ -64,12 +63,24 @@ class ChessPiece
     true
   end
 
-  def check?
-    false
+  def check?(square, capture)
+    #File.open("var.log", "a") { |file| file.puts "square: #{square}, capture:#{capture} color: #{@color} type: #{@type}"  }
+    old_location = @location.clone
+    in_check = false
+    
+    if capture then @board.capture_piece(square) end
+    change_location(square)
+
+    if @board.check(@color) then in_check = true end
+
+    change_location(old_location)
+    if capture then @board.undo_last_capture end
+
+    in_check
   end
 
   def move_legal? (location)
-    board.inbounds?(location)
+    board.inbounds?(location) && location != @location
   end
 
   def capture_legal?(square)
@@ -79,6 +90,10 @@ class ChessPiece
   protected
   def move(square)
     if board.position_occupied?(square)
+      loc = board.get_piece(square)
+      File.open("var.log", "a") { |file| file.puts "self: #{@location} square: #{square}, piece:#{type}, color: #{color}, loc: #{loc} "  
+      file.puts "board:\n#{board}"
+      }
       if board.get_piece(square).color != @color
         return move_with_capture(square)
       else
@@ -90,7 +105,7 @@ class ChessPiece
   end
 
   def move_without_capture(square)
-    status = board_status_legal(square)
+    status = board_status_legal(square, false)
     unless status == true
       return status
     end
@@ -98,7 +113,7 @@ class ChessPiece
   end
 
   def move_with_capture(square)
-    status = board_status_legal(square)
+    status = board_status_legal(square, true)
     unless status == true
       return status
     end
@@ -106,11 +121,11 @@ class ChessPiece
     change_location(square)
   end
 
-  def board_status_legal(square)
+  def board_status_legal(square, capture)
     unless path_clear?(square)
       return :path_blocked
     end
-    if check?
+    if check?(square, capture)
       return :illegal_causes_check     
     end
     true

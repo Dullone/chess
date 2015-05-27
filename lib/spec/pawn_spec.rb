@@ -4,6 +4,13 @@ describe Pawn do
   let(:board)        { ChessBoard.new }
   let(:pawn)         { Pawn.new(board, [6,0], :black) }
   let(:pawn_white)   { Pawn.new(board, [4,1], :white) }
+  let(:king)         { King.new(board, [7,4], :black, false) }
+  let(:king_white)   { King.new(board, [0,4], :white, false) }
+
+  before(:each) do 
+    board.add_piece(king.location, king)
+    board.add_piece(king_white.location, king_white)
+  end
   
   describe "#move_to" do
     it "moves up one" do 
@@ -24,7 +31,7 @@ describe Pawn do
     it "checks for en passant" do 
       board.add_piece(pawn_white.location, pawn_white)
       pawn.move_to([4,0])
-      expect(pawn_white.en_passant_targets[0]).to equal pawn
+      expect(pawn_white.en_passant_targets[0]).to eql pawn.location
     end
   end
 end

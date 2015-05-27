@@ -31,14 +31,14 @@ class Pawn < ChessPiece
   def en_passant_check
     if pawns = pawn_adjacent
       pawns.each do |pawn|
-        pawn.add_en_passant self
+        pawn.add_en_passant self.location
       end
     end
   end
 
-  def add_en_passant(pawn)
+  def add_en_passant(location)
     @en_passant_targets ||= []
-    @en_passant_targets << pawn
+    @en_passant_targets << location
   end
 
   def clear_en_passant_targets

@@ -8,8 +8,14 @@ describe Rook do
     it "moves vertially" do 
       expect(rook_3_3.move_to([6,3])).to eql [6,3]
     end
+    it "moves vertially in the negative direction" do 
+      expect(rook_3_3.move_to([0,3])).to eql [0,3]
+    end
     it "moves horizontal" do
       expect(rook_3_3.move_to([3,6])).to eql [3,6]
+    end
+    it "moves horizontal in the negative direction" do 
+      expect(rook_3_3.move_to([3,0])).to eql [3,0]
     end
     it "doesn't move diagonal" do 
       expect(rook_3_3.move_to([5,5])).to eql :illegal_move

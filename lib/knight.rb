@@ -28,12 +28,11 @@ class Knight < ChessPiece
   end
 
   #override to remove path checking
-  def move_without_capture(square)
-    if check?
-      :illegal_causes_check
-    else
-      return change_location(square)
+  def board_status_legal(square, capture)
+    if check?(square, capture)
+      return :illegal_causes_check     
     end
+    true
   end
 
 end

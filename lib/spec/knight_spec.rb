@@ -3,6 +3,14 @@ require "./knight"
 describe Knight do
   let(:board)        { ChessBoard.new }
   let(:knight)       { Knight.new(board, [7,1], :black, false) }
+  let(:king)         { King.new(board, [7,4], :black, false) }
+  let(:king_white)   { King.new(board, [0,4], :white, false) }
+
+  before(:each) do 
+    board.add_piece(king.location, king)
+    board.add_piece(king_white.location, king_white)
+  end
+  
   describe "#move_to" do 
     it "moves two right one up" do 
       expect(knight.move_to([6,3])).to eql [6,3]
