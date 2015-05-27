@@ -20,14 +20,10 @@ class King < ChessPiece
   end
 
   def move_legal?(square)
-    unless super(square)
+    unless (@location[0] - square[0]).abs <= 1 && (@location[1] - square[1]).abs <= 1
       return false
     end
-    if (@location[0] - square[0]).abs <= 1 && (@location[1] - square[1]).abs <= 1
-      true
-    else
-      false
-    end
+    super(square)
   end
 
   def move_to(square)

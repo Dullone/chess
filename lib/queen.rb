@@ -9,12 +9,11 @@ class Queen < ChessPiece
   end
 
   def move_legal?(square)
-    unless super(square) then return false end
+    unless is_horizontal_move?(square) || is_vertical_move?(square) || is_diagonal_move?(square)
+      return false
+    end
 
-    if is_horizontal_move?(square) then return true end
-    if is_vertical_move?(square) then return true end
-    if is_diagonal_move?(square) then return true end
-
-    false
+    super(square)
   end
+
 end

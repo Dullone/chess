@@ -11,11 +11,12 @@ class Pawn < ChessPiece
   end
 
   def move_legal?(square)
-    unless super(square)
-      false
-    end
     length = (@location[0] - square[0]).abs
-    (@location[1] - square[1]) == 0 && ((length <= 2 && @moved == false) || length == 1)
+    unless (@location[1] - square[1]) == 0 && ((length <= 2 && @moved == false) || length == 1)
+      return false
+    end
+
+    super(square)
   end
 
   def capture_legal?(square)
