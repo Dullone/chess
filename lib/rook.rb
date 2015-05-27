@@ -9,12 +9,10 @@ class Rook < ChessPiece
   end
 
   def move_legal?(square)
-    unless super(square) then return false end
-
-    if is_horizontal_move?(square) then return true end
-    if is_vertical_move?(square) then return true end
-
-    false
+    unless is_horizontal_move?(square) || is_vertical_move?(square) 
+      return false 
+    end
+    super(square)
   end
 
   def castle(square)

@@ -45,7 +45,8 @@ class Pawn < ChessPiece
     @en_passant_targets = nil
   end
 
-  def move(square)
+  def move_to(square)
+    if !move_legal?(square) then return :illegal_move end
     return_value = nil
     if (@location[0] - square[0]).abs == 2
       return_value = super(square)

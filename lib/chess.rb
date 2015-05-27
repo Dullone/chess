@@ -11,6 +11,7 @@ class Chess
   attr_reader :board
   def initialize(board)
     @board = board
+    @alph = ('a'..'h')
   end
 
   def construct_board
@@ -43,6 +44,17 @@ class Chess
     @board.add_piece([7,3], Queen.new(@board, [7,3], :black, false))
     @board.add_piece([0,3], Queen.new(@board, [0,3], :white, false))
 
+  end
+
+  def get_move
+    puts "input move"
+    gets.chomp
+  end
+
+  def convert_input(string)
+    input = string.split(",")
+
+    input_array = input[0].strip.to_i
   end
 end
 

@@ -27,6 +27,11 @@ class Knight < ChessPiece
     :illegal_move
   end
 
+  #disable path checking for knight
+  def path_clear(square)
+    true
+  end
+
   #override to remove path checking
   def board_status_legal(square, capture)
     if check?(square, capture)

@@ -24,26 +24,18 @@ class ChessPiece
     (@location[0] - square[0]).abs == (@location[1] - square[1]).abs
   end
 
-  def move_type(square)
-    if move_legal?(square)
-      if is_horizontal_move?(square)
-        return :horizontal
-      elsif is_vertical_move?(square)
-        return :vertical
-      else
-        return :diagonal
-      end
-    end
-    false
-  end
-
+  #returns position moved to or error type
   def move_to(square)
-    if !move_legal?(square)
-      return :illegal_move
+    if !move_legal?(square) then return :illegal_move end
+    if board.position_occupied?(square)
+      if board.get_piece(square).color != @color
+        return move_with_capture(square)
+      else
+        return :position_occupied
+      end
     else
-      return move(square)
+      return move_without_capture(square)
     end
-    false
   end
 
   def path_clear?(end_point)
@@ -64,45 +56,56 @@ class ChessPiece
   end
 
   def check?(square, capture)
-    #File.open("var.log", "a") { |file| file.puts "square: #{square}, capture:#{capture} color: #{@color} type: #{@type}"  }
-    old_location = @location.clone
+    old_location = [@location[0], @location[1]]
     in_check = false
     
     if capture then @board.capture_piece(square) end
-    change_location(square)
+    temp_change_location(square)
 
-    if @board.check(@color) then in_check = true end
+    if @board.check(@color) != nil then in_check = true end
 
-    change_location(old_location)
+    temp_change_location(old_location)
     if capture then @board.undo_last_capture end
 
     in_check
   end
 
   def move_legal? (location)
-    board.inbounds?(location) && location != @location
+    board.inbounds?(location) && location != @location  && path_clear?(location)
   end
 
   def capture_legal?(square)
     move_legal? square
   end
 
-  protected
-  def move(square)
+  def board_status_legal(square, capture)
+    unless path_clear?(square)
+      return :path_blocked
+    end
+    if check?(square, capture)
+      return :illegal_causes_check     
+    end
+    true
+  end
+
+  def check_board_status(square)
+    unless move_legal?(square) then return false end
     if board.position_occupied?(square)
-      loc = board.get_piece(square)
-      File.open("var.log", "a") { |file| file.puts "self: #{@location} square: #{square}, piece:#{type}, color: #{color}, loc: #{loc} "  
-      file.puts "board:\n#{board}"
-      }
       if board.get_piece(square).color != @color
-        return move_with_capture(square)
+        if board_status_legal(square, true) == true
+          return :legal
+        end
       else
         :position_occupied
       end
     else
-      move_without_capture(square)
+      if board_status_legal(square, false) == true
+        :legal
+      end
     end
   end
+
+  protected
 
   def move_without_capture(square)
     status = board_status_legal(square, false)
@@ -121,18 +124,12 @@ class ChessPiece
     change_location(square)
   end
 
-  def board_status_legal(square, capture)
-    unless path_clear?(square)
-      return :path_blocked
-    end
-    if check?(square, capture)
-      return :illegal_causes_check     
-    end
-    true
-  end
-
   def change_location(square)
     @moved = true
+    @location = board.move_piece(@location, square)
+  end
+
+  def temp_change_location(square)
     @location = board.move_piece(@location, square)
   end
 

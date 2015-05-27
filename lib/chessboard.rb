@@ -81,13 +81,10 @@ class ChessBoard
 
   def check(color = :both)
     white_king = find_piece(:king, :white).first
-    black_king = find_piece(:king, :black).first
+    black_king = find_piece(:king, :black).first    
 
     if color == :both || color == :white
       each_piece do |piece|
-        if piece.type == :rook
-          #File.open("var.log", "a") { |io| io.puts "color: #{color} wKing: #{white_king.location} piece: #{piece} piece loc #{piece.location}" }
-        end
         if piece.color == :black && piece.capture_legal?(white_king.location)
           return piece
         end
@@ -107,6 +104,18 @@ class ChessBoard
     each_piece do |piece|
       each_square do |square|
         if piece.move_legal?(square) then  return true end
+      end
+    end
+    false
+  end
+
+  def any_legal_moves?(color)
+    each_piece do |piece|
+      if piece.color != color then next end
+      each_index do |index|
+        if piece.check_board_status(index) == :legal
+          return true
+        end
       end
     end
     false
@@ -144,9 +153,17 @@ class ChessBoard
   end
 
   def each_square
-     @positions.each do |row|
+    @positions.each do |row|
       row.each do |square|
         yield square
+      end
+    end
+  end
+
+  def each_index
+    8.times do |row|
+      8.times do |col|
+        yield [row, col]
       end
     end
   end

@@ -10,8 +10,8 @@ class Bishop < ChessPiece
   end
 
   def move_legal?(location)
-    unless super(location) then return false end
-    is_diagonal_move? location
+    unless is_diagonal_move?(location) then return false end
+    super(location)
   end
 
 end
