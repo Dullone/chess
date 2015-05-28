@@ -10,7 +10,6 @@ class Chess
   @@alph_rows = Array('a'..'h')
   def initialize(board)
     @board = board
-    @current_player = :white
   end
 
   def construct_board
@@ -49,8 +48,9 @@ class Chess
     loop do
       puts @board
       get_piece
-      unless @board.any_legal_move? @current_player
-        puts "checkmate!"
+      unless @board.any_legal_move? @board.current_player
+        puts @board
+        puts "Checkmate of #{@board.current_player}!"
         exit
       end
     end
@@ -60,10 +60,15 @@ class Chess
   def get_move(piece)
     got_move = false
     until got_move do
-      print "Enter move for #{piece.type} at #{Chess.convert_index_notation(piece.location)}\n" \
+      print "#{@board.current_player.capitalize}, enter move for #{piece.type} at #{Chess.convert_index_notation(piece.location)}\n" \
             "Column(a-h), Row(1-8) (enter 'q' to change piece): "
       input = gets.chomp
-      if input.strip.downcase == 'q' then return end
+      
+      case input.strip.downcase 
+      when 'q'
+        return
+      end
+
       move = Chess.convert_input(input)
       if move != false
         if make_move?(piece, move) then got_move = true end
@@ -77,17 +82,34 @@ class Chess
     got_piece = false
     piece = nil
     until got_piece do
-      print "Enter piece to move - column(a-h), row(1-8): "
-      input = Chess.convert_input(gets.chomp)
+      puts "Enter 's' to save, 'load' to load saved game"
+      print "#{@board.current_player.capitalize}, enter piece to move - column(a-h), row(1-8): "
+      input = gets.chomp
+
+      case input.strip.downcase 
+      when 's'
+        puts make_title "Game saved!"
+        @board.save_board
+        next
+      when 'load'
+        board = ChessBoard.load
+        if board then 
+          @board = board
+          puts make_title "Game loaded!"
+          return 
+        end
+      end
+
+      input  = Chess.convert_input(input)
       if input != false
         piece = @board.get_piece(input)
-        if piece != nil && piece.color == @current_player
+        if piece != nil && piece.color == @board.current_player
           got_piece = true
         else
-          print "No #{@current_player} piece at #{input}"
+          puts "No #{@board.current_player} piece at #{input}"
         end
       else
-        print "Not a valid input.  "
+        puts "Not a valid input.  "
       end
     end
     get_move piece
@@ -99,21 +121,21 @@ class Chess
       print "Error #{status}.  "
       return false
     end
-    change_player
+    @board.change_player
     true
   end
 
   def Chess.convert_input(string)
     input = string.split(",")
     input_array = [nil, nil]
+    if input[1] == nil then return false end
     input_array[1] = (input[1].strip.to_i - 1)
     if @@alph_rows.include?(input[0].downcase)
       input_array[0] = @@alph_rows.index(input[0])
     else
       return false
     end
-    if input_array[0] < 8 && input_array[1]  < 8
-      puts "#{input_array}"
+    if input_array[0] < 8 && input_array[1] >= 0 && input_array[1]  < 8
       return [input_array[1], input_array[0]] #reverse order
     end
     false
@@ -131,13 +153,10 @@ class Chess
     ""
   end
 
-  private
-  def change_player
-    if @current_player == :white
-      @current_player = :black
-    else
-      @current_player = :white
-    end
+  def make_title(string)
+    "--------------------\n"\
+    "#{string}\n"\
+    "--------------------\n"
   end
 
 end

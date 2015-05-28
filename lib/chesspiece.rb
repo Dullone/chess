@@ -29,13 +29,11 @@ class ChessPiece
     if move_legal?(square) != true then return :illegal_move end
     if board.position_occupied?(square)
       if board.get_piece(square).color != @color
-        puts "move with capture"
         return move_with_capture(square)
       else
         return :position_occupied
       end
     else
-      puts "move without capture"
       return move_without_capture(square)
     end
   end

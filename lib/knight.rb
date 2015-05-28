@@ -10,21 +10,17 @@ class Knight < ChessPiece
   end
 
   def move_legal?(square)
-    unless super(square) then return false end
-
     row_length = (@location[0] - square[0]).abs
     col_length = (@location[1] - square[1]).abs
 
-    if row_length == 2 && col_length == 1
-      return true
-    elsif col_length == 2 && row_length == 1
-      return true
+    unless (row_length == 2 && col_length == 1) || (col_length == 2 && row_length == 1)
+      return false
     end
-    :illegal_move
+    super(square)
   end
 
   #disable path checking for knight
-  def path_clear(square)
+  def path_clear?(square)
     true
   end
 

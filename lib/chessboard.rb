@@ -4,11 +4,20 @@ require "yaml"
 
 class ChessBoard
   @@empty_square = "_"
-  attr_reader :positions, :captured_pieces
+  attr_reader :positions, :captured_pieces, :current_player
   def initialize
     clear_board
     @captured_pieces = []
     @last_capture = nil
+    @current_player = :white
+  end
+
+  def change_player
+    if @current_player == :white
+      @current_player = :black
+    else
+      @current_player = :white
+    end
   end
 
   def clear_board
@@ -117,7 +126,7 @@ class ChessBoard
       if piece.color != color then next end
       each_index do |index|
         if piece.check_board_status(index) == :legal
-          puts "Legal move: #{piece.type}, #{piece.color}, square: #{Chess.convert_index_notation(index)}, current:#{Chess.convert_index_notation(piece.location)}"
+          puts "Legal move: #{piece.type}, #{piece.color}, #{Chess.convert_index_notation(piece.location)} to #{Chess.convert_index_notation(index)}"
           return true
         end
       end
