@@ -1,5 +1,4 @@
 require "./chessboard"
-require "./chesspiece"
 require "./pawn"
 require "./bishop"
 require "./king"
@@ -8,10 +7,10 @@ require "./rook"
 require "./knight"
 
 class Chess
-  attr_reader :board
+  @@alph_rows = Array('a'..'h')
   def initialize(board)
     @board = board
-    @alph = ('a'..'h')
+    @current_player = :white
   end
 
   def construct_board
@@ -46,19 +45,100 @@ class Chess
 
   end
 
-  def get_move
-    puts "input move"
-    gets.chomp
+  def start
+    loop do
+      puts @board
+      get_piece
+    end
+
   end
 
-  def convert_input(string)
+  def get_move(piece)
+    got_move = false
+    until got_move do
+      print "Enter move for #{piece.type} at #{Chess.convert_index_notation(piece.location)}\n" \
+            "Column(a-h), Row(1-8) (enter 'q' to change piece): "
+      input = gets.chomp
+      if input.strip.downcase == 'q' then return end
+      move = Chess.convert_input(input)
+      if move != false
+        if make_move?(piece, move) then got_move = true end
+      else
+        print "Not a valid input.  "
+      end
+    end
+  end
+
+  def get_piece
+    got_piece = false
+    piece = nil
+    until got_piece do
+      print "Enter piece to move - column(a-h), row(1-8): "
+      input = Chess.convert_input(gets.chomp)
+      if input != false
+        piece = @board.get_piece(input)
+        if piece != nil && piece.color == @current_player
+          got_piece = true
+        else
+          print "No #{@current_player} piece at #{input}"
+        end
+      else
+        print "Not a valid input.  "
+      end
+    end
+    get_move piece
+  end
+
+  def make_move?(piece, square)
+    status = piece.move_to(square)
+    unless status == square
+      print "Error #{status}.  "
+      return false
+    end
+    change_player
+    true
+  end
+
+  def Chess.convert_input(string)
     input = string.split(",")
-
-    input_array = input[0].strip.to_i
+    input_array = [nil, nil]
+    input_array[1] = (input[1].strip.to_i - 1)
+    if @@alph_rows.include?(input[0].downcase)
+      input_array[0] = @@alph_rows.index(input[0])
+    else
+      return false
+    end
+    if input_array[0] < 8 && input_array[1]  < 8
+      puts "#{input_array}"
+      return [input_array[1], input_array[0]] #reverse order
+    end
+    false
   end
+
+  def Chess.convert_index_notation(index)
+    if index[0] < 8 && index[0] >= 0 && index[1] >= 0 && index[1] < 8
+      notation = ""
+      notation << @@alph_rows[index[1]]
+      notation << ", "
+      notation << (index[0] + 1).to_s
+
+      return notation
+    end
+    ""
+  end
+
+  private
+  def change_player
+    if @current_player == :white
+      @current_player = :black
+    else
+      @current_player = :white
+    end
+  end
+
 end
 
 board = ChessBoard.new
 chess = Chess.new(board)
 chess.construct_board
-puts board.to_s
+chess.start

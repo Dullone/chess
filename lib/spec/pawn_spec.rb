@@ -6,6 +6,7 @@ describe Pawn do
   let(:pawn_white)   { Pawn.new(board, [4,1], :white) }
   let(:king)         { King.new(board, [7,4], :black, false) }
   let(:king_white)   { King.new(board, [0,4], :white, false) }
+  let(:pawn_promote) { Pawn.new(board, [6,3], :white) }
 
   before(:each) do 
     board.add_piece(king.location, king)
@@ -32,6 +33,11 @@ describe Pawn do
       board.add_piece(pawn_white.location, pawn_white)
       pawn.move_to([4,0])
       expect(pawn_white.en_passant_targets[0]).to eql pawn.location
+    end
+    it "checks for promotion" do
+      board.add_piece(pawn_promote.location, pawn_promote)
+      expect(pawn_promote).to receive(:pawn_promote?).and_return(true)
+      pawn_promote.move_to([7,3])
     end
   end
 end

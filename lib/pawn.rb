@@ -21,9 +21,9 @@ class Pawn < ChessPiece
 
   def capture_legal?(square)
     if @color == :black
-      (@location[1] - square[1]) == 1
+      (@location[1] - square[1]) == 1 && (@location[0] - square[0]) == 1
     elsif color == :white
-      (@location[1] - square[1]) == -1
+      (@location[1] - square[1]) == -1 && (@location[0] - square[0]) == -1
     else
       :piece_illegal_color
     end
@@ -44,6 +44,27 @@ class Pawn < ChessPiece
 
   def clear_en_passant_targets
     @en_passant_targets = nil
+  end
+
+  def change_location(square)
+    position = super(square)
+    if pawn_promote? then promote_pawn end
+    position
+  end
+
+  def pawn_promote?
+    if @color == :white && @location[0] == 7
+      return true
+    elsif @color == :black && @location[0] == 0
+      return true
+    end
+    false
+  end
+
+  def promote_pawn
+    #TODO
+    #add new  piece to board
+    #check for check/checkmate
   end
 
   def move_to(square)

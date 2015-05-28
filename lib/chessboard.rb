@@ -81,11 +81,12 @@ class ChessBoard
 
   def check(color = :both)
     white_king = find_piece(:king, :white).first
-    black_king = find_piece(:king, :black).first    
+    black_king = find_piece(:king, :black).first
 
     if color == :both || color == :white
       each_piece do |piece|
         if piece.color == :black && piece.capture_legal?(white_king.location)
+          puts "Checking color: #{color}. Check piece: #{piece.type}, #{piece.color}, #{Chess.convert_index_notation(piece.location)}, W King: #{white_king.location}"
           return piece
         end
       end
