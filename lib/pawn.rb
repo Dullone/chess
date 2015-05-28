@@ -58,7 +58,7 @@ class Pawn < ChessPiece
 
   def change_location(square)
     position = super(square)
-    if pawn_promote? then promote_pawn end
+    if pawn_promote? then return :promote_pawn end
     position
   end
 
@@ -71,10 +71,12 @@ class Pawn < ChessPiece
     false
   end
 
-  def promote_pawn
-    #TODO
-    #add new  piece to board
-    #check for check/checkmate
+  def promote_pawn    
+    puts "in pawn_promote"
+  end
+
+  def add_promote_callback(method)
+    @promote_callback_method = method
   end
 
   def move_to(square)

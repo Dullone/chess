@@ -117,6 +117,10 @@ class Chess
 
   def make_move?(piece, square)
     status = piece.move_to(square)
+    if status == :promote_pawn then 
+      promote_pawn(piece) 
+      status = square
+    end
     unless status == square
       puts "Error #{status}.  "
       return false
@@ -159,6 +163,33 @@ class Chess
     "--------------------\n"
   end
 
+  def promote_pawn(pawn)
+    valid_answer = false
+    until valid_answer do 
+      puts "Promote pawn to"
+      puts "'q' for queen, 'n' for knight"
+      puts "'r' for rook,  'b' for bishop"
+      print "choice: "
+      choice = gets.chomp
+
+      @board.remove_piece(pawn.location)
+      valid_answer = true
+      case choice.strip.downcase
+      when 'q'
+        @board.add_piece(pawn.location, Queen.new(@board, pawn.location, :black, false))
+      when 'n'
+        @board.add_piece(pawn.location, Knight.new(@board, pawn.location, :black, false))
+      when 'r'
+        @board.add_piece(pawn.location, Rook.new(@board, pawn.location, :black, false))
+      when 'b'
+        @board.add_piece(pawn.location, Bishop.new(@board, pawn.location, :black, false))
+      else
+        "Invalid choice: #{choice}"
+        valid_answer  = false
+      end
+    end
+
+  end
 end
 
 board = ChessBoard.new
