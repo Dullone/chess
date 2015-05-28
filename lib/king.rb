@@ -28,14 +28,15 @@ class King < ChessPiece
 
   def move_to(square)
     if castle(square) == square 
-      square
+      puts "castled"
+      return square
     else
       return super(square)
     end
   end
 
   def castle(square)
-    if @moved == true && (@location[1] - square[1]).abs == 2
+    if @moved == true || ((@location[1] - square[1]).abs != 2 && @location[0] == square[0]) 
       return :illegal_castle_piece_moved 
     end
 
@@ -45,8 +46,6 @@ class King < ChessPiece
         if path_clear?(position[:rook])
           @board.get_piece(position[:rook]).castle(position[:rook_after])
           return @location = change_location(position[:king_after])
-        else
-          return :path_blocked
         end
       end
     end

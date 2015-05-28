@@ -106,7 +106,7 @@ class Chess
         if piece != nil && piece.color == @board.current_player
           got_piece = true
         else
-          puts "No #{@board.current_player} piece at #{input}"
+          puts "No #{@board.current_player} piece at #{Chess.convert_index_notation(input)}"
         end
       else
         puts "Not a valid input.  "
@@ -118,7 +118,7 @@ class Chess
   def make_move?(piece, square)
     status = piece.move_to(square)
     unless status == square
-      print "Error #{status}.  "
+      puts "Error #{status}.  "
       return false
     end
     @board.change_player
