@@ -1,4 +1,7 @@
 require "./chesspiece"
+require "io/console"
+require "yaml"
+
 class ChessBoard
   @@empty_square = "_"
   attr_reader :positions, :captured_pieces
@@ -86,7 +89,6 @@ class ChessBoard
     if color == :both || color == :white
       each_piece do |piece|
         if piece.color == :black && piece.capture_legal?(white_king.location)
-          puts "Checking color: #{color}. Check piece: #{piece.type}, #{piece.color}, #{Chess.convert_index_notation(piece.location)}, W King: #{white_king.location}"
           return piece
         end
       end
@@ -110,11 +112,12 @@ class ChessBoard
     false
   end
 
-  def any_legal_moves?(color)
+  def any_legal_move?(color)
     each_piece do |piece|
       if piece.color != color then next end
       each_index do |index|
         if piece.check_board_status(index) == :legal
+          puts "Legal move: #{piece.type}, #{piece.color}, square: #{Chess.convert_index_notation(index)}, current:#{Chess.convert_index_notation(piece.location)}"
           return true
         end
       end
@@ -151,6 +154,17 @@ class ChessBoard
       end
     end
     string
+  end
+
+  def save_board(file = "./chess.yml")
+    file = File.new(file, "w")
+    file.puts YAML::dump(self)
+    file.close
+  end
+
+  def ChessBoard.load(file = "./chess.yml")
+    board_string = File.read(file)
+    oldboard = YAML::load(board_string)
   end
 
   def each_square

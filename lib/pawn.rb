@@ -11,8 +11,15 @@ class Pawn < ChessPiece
   end
 
   def move_legal?(square)
-    length = (@location[0] - square[0]).abs
-    unless (@location[1] - square[1]) == 0 && ((length <= 2 && @moved == false) || length == 1)
+    length = @location[0] - square[0]
+    if color == :white  && length > 0
+      return :illegal_move
+    end
+    if color == :black && length < 0
+      return :illegal_move
+    end
+    length_abs = length.abs
+    unless (@location[1] - square[1]) == 0 && ((length_abs <= 2 && @moved == false) || length_abs == 1)
       return false
     end
 

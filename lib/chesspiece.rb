@@ -1,4 +1,3 @@
-require "./utility_funcs"
 class ChessPiece
   attr_reader :location, :board, :type, :moved, :color, :symbol
 
@@ -27,7 +26,7 @@ class ChessPiece
 
   #returns position moved to or error type
   def move_to(square)
-    if !move_legal?(square) then return :illegal_move end
+    if move_legal?(square) != true then return :illegal_move end
     if board.position_occupied?(square)
       if board.get_piece(square).color != @color
         puts "move with capture"
@@ -92,10 +91,10 @@ class ChessPiece
   end
 
   def check_board_status(square)
-    unless move_legal?(square) then return false end
+    if move_legal?(square) != true then return :illegal_move end
     if board.position_occupied?(square)
       if board.get_piece(square).color != @color
-        if board_status_legal(square, true) == true
+        if capture_legal?(square) && board_status_legal(square, true) == true
           return :legal
         end
       else

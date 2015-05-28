@@ -49,6 +49,10 @@ class Chess
     loop do
       puts @board
       get_piece
+      unless @board.any_legal_move? @current_player
+        puts "checkmate!"
+        exit
+      end
     end
 
   end

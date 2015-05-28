@@ -3,8 +3,9 @@ require "./knight"
 describe Knight do
   let(:board)        { ChessBoard.new }
   let(:knight)       { Knight.new(board, [7,1], :black, false) }
+  let(:knight_white) { Knight.new(board, [7,1], :white, false) }
   let(:king)         { King.new(board, [7,4], :black, false) }
-  let(:king_white)   { King.new(board, [0,4], :white, false) }
+  let(:king_white)   { King.new(board, [0,6], :white, false) }
 
   before(:each) do 
     board.add_piece(king.location, king)
@@ -22,7 +23,10 @@ describe Knight do
       expect(knight.move_to([5,0])).to eql [5,0]
     end
     it "doens't move diagonal" do 
-      expect(knight.move_to([5,3])).to eql [5,3]
+      expect(knight.move_to([5,3])).to eql :illegal_move
+    end
+    it "white knight doesn't move diagonal" do 
+      expect(knight.move_to([5,1])).to eql :illegal_move
     end
   end
 end

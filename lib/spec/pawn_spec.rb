@@ -17,7 +17,10 @@ describe Pawn do
     it "moves up one" do 
       expect(pawn.move_to([5,0])).to eql [5,0]
     end
-    it "mvoes up two when not moved before" do 
+    it "doesn't move backward" do 
+      expect(pawn.move_to([7,0])).to eql :illegal_move
+    end
+    it "moves up two when not moved before" do 
       expect(pawn.move_to([4,0])).to eql [4,0]
     end
     it "doens't move up three" do 

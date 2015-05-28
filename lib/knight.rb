@@ -15,14 +15,10 @@ class Knight < ChessPiece
     row_length = (@location[0] - square[0]).abs
     col_length = (@location[1] - square[1]).abs
 
-    if row_length == 2 
-      if col_length == 1
-        return true
-      end
-    elsif col_length == 2
-      if row_length == 1
-        return true
-      end
+    if row_length == 2 && col_length == 1
+      return true
+    elsif col_length == 2 && row_length == 1
+      return true
     end
     :illegal_move
   end
