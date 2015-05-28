@@ -126,7 +126,7 @@ class ChessBoard
       if piece.color != color then next end
       each_index do |index|
         if piece.check_board_status(index) == :legal
-          puts "Legal move: #{piece.type}, #{piece.color}, #{Chess.convert_index_notation(piece.location)} to #{Chess.convert_index_notation(index)}"
+          #puts "Legal move: #{piece.type}, #{piece.color}, #{Chess.convert_index_notation(piece.location)} to #{Chess.convert_index_notation(index)}"
           return true
         end
       end

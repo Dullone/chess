@@ -117,18 +117,17 @@ positions:
       :black: p
       :white: P
   - 
-  - !ruby/object:Pawn
+  - !ruby/object:Bishop
     location:
     - 1
     - 5
     board: *1
-    color: :white
-    type: :pawn
-    moved: false
-    en_passant_targets: 
+    color: :black
+    type: :bishop
+    moved: true
     symbol:
-      :black: p
-      :white: P
+      :black: b
+      :white: B
   - !ruby/object:Pawn
     location:
     - 1
@@ -156,10 +155,27 @@ positions:
 - - 
   - 
   - 
-  - !ruby/object:Bishop
+  - 
+  - 
+  - !ruby/object:Knight
     location:
     - 2
+    - 5
+    board: *1
+    color: :white
+    type: :knight
+    moved: true
+    symbol:
+      :black: n
+      :white: N
+  - 
+  - 
+- - 
+  - 
+  - !ruby/object:Bishop
+    location:
     - 3
+    - 2
     board: *1
     color: :white
     type: :bishop
@@ -168,23 +184,6 @@ positions:
       :black: b
       :white: B
   - 
-  - !ruby/object:Knight
-    location:
-    - 2
-    - 5
-    board: *1
-    color: :white
-    type: :knight
-    moved: true
-    symbol:
-      :black: n
-      :white: N
-  - 
-  - 
-- - 
-  - 
-  - 
-  - 
   - !ruby/object:Pawn
     location:
     - 3
@@ -222,30 +221,9 @@ positions:
 - - 
   - 
   - 
-  - !ruby/object:Pawn
-    location:
-    - 5
-    - 3
-    board: *1
-    color: :black
-    type: :pawn
-    moved: true
-    en_passant_targets: 
-    symbol:
-      :black: p
-      :white: P
   - 
-  - !ruby/object:Knight
-    location:
-    - 5
-    - 5
-    board: *1
-    color: :black
-    type: :knight
-    moved: true
-    symbol:
-      :black: n
-      :white: N
+  - 
+  - 
   - 
   - 
 - - !ruby/object:Pawn
@@ -284,7 +262,18 @@ positions:
     symbol:
       :black: p
       :white: P
-  - 
+  - !ruby/object:Pawn
+    location:
+    - 6
+    - 3
+    board: *1
+    color: :black
+    type: :pawn
+    moved: false
+    en_passant_targets: 
+    symbol:
+      :black: p
+      :white: P
   - 
   - !ruby/object:Pawn
     location:
@@ -377,18 +366,18 @@ positions:
     symbol:
       :black: k
       :white: K
-  - !ruby/object:Bishop
+  - 
+  - !ruby/object:Knight
     location:
     - 7
-    - 5
+    - 6
     board: *1
     color: :black
-    type: :bishop
+    type: :knight
     moved: false
     symbol:
-      :black: b
-      :white: B
-  - 
+      :black: n
+      :white: N
   - !ruby/object:Rook
     location:
     - 7
@@ -400,6 +389,19 @@ positions:
     symbol:
       :black: r
       :white: R
-captured_pieces: []
-last_capture: 
+captured_pieces:
+- :type: :pawn
+  :symbol: &2
+    :black: p
+    :white: P
+last_capture: !ruby/object:Pawn
+  location:
+  - 1
+  - 5
+  board: *1
+  color: :white
+  type: :pawn
+  moved: false
+  en_passant_targets: 
+  symbol: *2
 current_player: :white

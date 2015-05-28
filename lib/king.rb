@@ -36,7 +36,7 @@ class King < ChessPiece
   end
 
   def castle(square)
-    if @moved == true || ((@location[1] - square[1]).abs != 2 && @location[0] == square[0]) 
+    if @moved == true || ((@location[1] - square[1]).abs != 2 && @location[0] != square[0]) 
       return :illegal_castle_piece_moved 
     end
 

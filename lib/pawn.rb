@@ -11,12 +11,12 @@ class Pawn < ChessPiece
   end
 
   def move_legal?(square)
-    length = @location[0] - square[0]
-    if color == :white  && length > 0
-      return :illegal_move
+    length = square[0] - @location[0]
+    if @color == :white  && length < 0
+      return false
     end
-    if color == :black && length < 0
-      return :illegal_move
+    if @color == :black && length > 0
+      return false
     end
     length_abs = length.abs
     unless (@location[1] - square[1]) == 0 && ((length_abs <= 2 && @moved == false) || length_abs == 1)
@@ -27,13 +27,16 @@ class Pawn < ChessPiece
   end
 
   def capture_legal?(square)
-    if @color == :black
-      (@location[1] - square[1]) == 1 && (@location[0] - square[0]) == 1
-    elsif color == :white
-      (@location[1] - square[1]) == -1 && (@location[0] - square[0]) == -1
-    else
-      :piece_illegal_color
+    if (square[1] - @location[1]).abs == 1
+      if    @color == :black && (square[0] - @location[0]) == -1
+        return true
+      elsif @color == :white && (square[0] - @location[0]) == 1
+        return true
+      else
+        :piece_illegal_color
+      end
     end
+    false
   end
 
   def en_passant_check
@@ -75,15 +78,21 @@ class Pawn < ChessPiece
   end
 
   def move_to(square)
-    if !move_legal?(square) then return :illegal_move end
-    return_value = nil
-    if (@location[0] - square[0]).abs == 2
-      return_value = super(square)
-      en_passant_check
-    else
-      return_value = super(square)
+    if move_legal?(square) #|| capture_legal(square) then return :illegal_move end
+      new_location = move_without_capture(square)
+      if (@location[0] - square[0]).abs == 2
+        en_passant_check
+      end
+      return new_location
     end
-    return_value
+    if capture_legal?(square)
+      if board.get_piece(square).color != @color
+        return move_with_capture(square)
+      else
+        return :position_occupied
+      end
+    end
+    :illegal_move
   end
 
   def move_without_capture(square)
