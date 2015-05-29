@@ -43,7 +43,7 @@ describe King do
       board.add_piece(rook_bl.location, rook_bl)
       board.add_piece(king.location, king)
       board.add_piece(bishop.location, bishop)
-      expect(king.castle(king.location)).to eql :path_blocked
+      expect(king.castle(king.location)).to eql :illegal_caslte
     end
   end
 

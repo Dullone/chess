@@ -71,25 +71,25 @@ class Pawn < ChessPiece
     false
   end
 
-  def promote_pawn    
-    puts "in pawn_promote"
-  end
-
   def add_promote_callback(method)
     @promote_callback_method = method
   end
 
   def move_to(square)
-    if move_legal?(square) #|| capture_legal(square) then return :illegal_move end
-      new_location = move_without_capture(square)
+    if move_legal?(square)
       if (@location[0] - square[0]).abs == 2
+        move_loc = move_without_capture(square)
         en_passant_check
+        return move_loc
       end
-      return new_location
+      return move_without_capture(square)
     end
     if capture_legal?(square)
-      if board.get_piece(square).color != @color
+      piece = board.get_piece(square)
+      if piece && piece.color != @color
         return move_with_capture(square)
+      elsif piece == nil
+        return :illegal_move
       else
         return :position_occupied
       end

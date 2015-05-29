@@ -30,7 +30,6 @@ class King < ChessPiece
     castle_result = castle(square)
     case castle_result
     when square 
-      puts "castled"
       return square
     when :casstle_passes_through_check
       return castle_result
@@ -65,7 +64,6 @@ class King < ChessPiece
 private
   def castle_pass_through_check?(start, end_location)
     direction = get_step(end_location[1] - start[1])
-    puts "checking #{[start[0], start[1] + direction]} and #{end_location}"
     check?([start[0], start[1] + direction], false) || check?(end_location, false)
   end
 end
