@@ -171,8 +171,10 @@ class ChessBoard
   end
 
   def ChessBoard.load(file = "./chess.yml")
+    unless File.exist?(file) then return false end
     board_string = File.read(file)
     oldboard = YAML::load(board_string)
+    true
   end
 
   def each_square

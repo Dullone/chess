@@ -82,7 +82,7 @@ class Chess
     got_piece = false
     piece = nil
     until got_piece do
-      puts "Enter 's' to save, 'load' to load saved game"
+      puts "Enter 's' to save, 'load' to load game, 'draw' to end in draw, 'quit' to quit"
       print "#{@board.current_player.capitalize}, enter piece to move - column(a-h), row(1-8): "
       input = gets.chomp
 
@@ -97,7 +97,15 @@ class Chess
           @board = board
           puts make_title "Game loaded!"
           return 
+        else
+          puts make_title "No saved game!"
         end
+      when 'draw'
+        puts make_title "Draw!"
+        exit
+      when 'quit'
+        puts make_title "Quitting"
+        exit
       end
 
       input  = Chess.convert_input(input)
