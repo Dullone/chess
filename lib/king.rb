@@ -27,23 +27,33 @@ class King < ChessPiece
   end
 
   def move_to(square)
-    if castle(square) == square 
+    castle_result = castle(square)
+    case castle_result
+    when square 
       puts "castled"
       return square
+    when :casstle_passes_through_check
+      return castle_result
     else
       return super(square)
     end
   end
 
   def castle(square)
-    if @moved == true || ((@location[1] - square[1]).abs != 2 && @location[0] != square[0]) 
+    if @moved == true 
       return :illegal_castle_piece_moved 
+    end
+    if ((@location[1] - square[1]).abs != 2 && @location[0] != square[0])
+      return :not_castle_position
     end
 
     @@castle_positions.each_value do |position|
       rook = @board.get_piece(position[:rook])
       if @location == position[:king] && rook != nil && rook.type == :rook && rook.moved == false && rook.color == @color
         if path_clear?(position[:rook])
+          if castle_pass_through_check?(@location, square)
+            return :casstle_passes_through_check
+          end
           @board.get_piece(position[:rook]).castle(position[:rook_after])
           return @location = change_location(position[:king_after])
         end
@@ -52,4 +62,10 @@ class King < ChessPiece
     :illegal_caslte
   end
 
+private
+  def castle_pass_through_check?(start, end_location)
+    direction = get_step(end_location[1] - start[1])
+    puts "checking #{[start[0], start[1] + direction]} and #{end_location}"
+    check?([start[0], start[1] + direction], false) || check?(end_location, false)
+  end
 end

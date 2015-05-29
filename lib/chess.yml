@@ -69,18 +69,7 @@ positions:
       :black: r
       :white: R
 - - 
-  - !ruby/object:Pawn
-    location:
-    - 1
-    - 1
-    board: *1
-    color: :white
-    type: :pawn
-    moved: false
-    en_passant_targets: 
-    symbol:
-      :black: p
-      :white: P
+  - 
   - !ruby/object:Pawn
     location:
     - 1
@@ -143,7 +132,18 @@ positions:
       :black: p
       :white: P
 - - 
-  - 
+  - !ruby/object:Pawn
+    location:
+    - 2
+    - 1
+    board: *1
+    color: :white
+    type: :pawn
+    moved: true
+    en_passant_targets: 
+    symbol:
+      :black: p
+      :white: P
   - 
   - 
   - 
@@ -212,7 +212,18 @@ positions:
   - 
   - 
   - 
-  - 
+  - !ruby/object:Pawn
+    location:
+    - 5
+    - 5
+    board: *1
+    color: :black
+    type: :pawn
+    moved: true
+    en_passant_targets: 
+    symbol:
+      :black: p
+      :white: P
   - 
   - 
 - - !ruby/object:Pawn
@@ -264,18 +275,7 @@ positions:
       :black: p
       :white: P
   - 
-  - !ruby/object:Pawn
-    location:
-    - 6
-    - 5
-    board: *1
-    color: :black
-    type: :pawn
-    moved: false
-    en_passant_targets: 
-    symbol:
-      :black: p
-      :white: P
+  - 
   - !ruby/object:Pawn
     location:
     - 6
