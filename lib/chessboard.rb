@@ -18,6 +18,11 @@ class ChessBoard
     else
       @current_player = :white
     end
+    each_piece do |piece|
+      if piece.color == @current_player
+        piece.turn_tick
+      end
+    end
   end
 
   def clear_board
@@ -174,7 +179,6 @@ class ChessBoard
     unless File.exist?(file) then return false end
     board_string = File.read(file)
     oldboard = YAML::load(board_string)
-    true
   end
 
   def each_square

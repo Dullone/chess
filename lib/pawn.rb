@@ -1,13 +1,18 @@
 require "./chesspiece"
 
 class Pawn < ChessPiece
-  attr_reader :en_passant_targets
+  attr_reader :en_passant_target
   def initialize(board, square, color, add_to_board = true)
     super(board, square, color, add_to_board)
     @type = :pawn
     @en_passant_targets = nil
     #@symbol = { :black => "♟", :white => "♙" }#unicode
     @symbol = { :black => "p", :white => "P" }
+  end
+
+  def turn_tick
+    #remove self as target of en passant after one turn
+    clear_en_passant_targets
   end
 
   def move_legal?(square)
@@ -40,20 +45,34 @@ class Pawn < ChessPiece
   end
 
   def en_passant_check
-    if pawns = pawn_adjacent
-      pawns.each do |pawn|
-        pawn.add_en_passant self.location
-      end
+    if enemy_pawn_adjacent.length > 0
+      @en_passant_target = true
     end
   end
 
-  def add_en_passant(location)
-    @en_passant_targets ||= []
-    @en_passant_targets << location
+  def en_passant_possible(square)
+    pawns = enemy_pawn_adjacent
+    pawns.each do |pawn|
+      if square[1] == pawn.location[1] && pawn.en_passant_target
+        if    @color == :white && (square[0] - @location[0]) == 1
+          $stdout.puts "EN PASSANT"
+          return perform_en_passant(square, pawn)
+        elsif @color == :black && (square[0] - @location[0]) == -1
+          $stdout.puts "EN PASSANT"
+          return perform_en_passant(square, pawn)
+        end
+      end
+    end
+    :illegal_move    
   end
 
   def clear_en_passant_targets
-    @en_passant_targets = nil
+    @en_passant_target = false
+  end
+
+  def perform_en_passant(square, pawn)
+    @board.capture_piece(pawn.location)
+    change_location(square)
   end
 
   def change_location(square)
@@ -71,10 +90,6 @@ class Pawn < ChessPiece
     false
   end
 
-  def add_promote_callback(method)
-    @promote_callback_method = method
-  end
-
   def move_to(square)
     if move_legal?(square)
       if (@location[0] - square[0]).abs == 2
@@ -89,7 +104,7 @@ class Pawn < ChessPiece
       if piece && piece.color != @color
         return move_with_capture(square)
       elsif piece == nil
-        return :illegal_move
+        return en_passant_possible(square)
       else
         return :position_occupied
       end
@@ -107,7 +122,7 @@ class Pawn < ChessPiece
     super(square)
   end
 
-  def pawn_adjacent
+  def enemy_pawn_adjacent
     left_side  = @board.get_piece([@location[0], location[1] - 1])
     right_side = @board.get_piece([@location[0], location[1] + 1])
 

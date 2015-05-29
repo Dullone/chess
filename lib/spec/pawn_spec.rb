@@ -35,7 +35,17 @@ describe Pawn do
     it "checks for en passant" do 
       board.add_piece(pawn_white.location, pawn_white)
       pawn.move_to([4,0])
-      expect(pawn_white.en_passant_targets[0]).to eql pawn.location
+      expect(pawn.en_passant_target).to eql true
+    end
+    it "performs en passant" do
+      board.add_piece(pawn_white.location, pawn_white)
+      pawn.move_to([4,0])
+      expect(pawn_white.move_to([5,0])).to eql [5,0]
+      expect(board.get_piece(pawn.location)).to eql nil
+    end
+    it "isn't marked for en passant of no other pawns adjactent" do 
+      pawn.move_to([4,0])
+      expect(pawn.en_passant_target).to equal false
     end
     it "checks for promotion" do
       board.add_piece(pawn_promote.location, pawn_promote)

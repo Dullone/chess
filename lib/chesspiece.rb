@@ -105,6 +105,9 @@ class ChessPiece
     end
   end
 
+  def turn_tick
+  end
+
   protected
 
   def move_without_capture(square)
